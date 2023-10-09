@@ -1,5 +1,72 @@
 # Team13_BE
-13조
+
+<div align="center">
+    <img alt="fundering" src="https://github.com/Step3-kakao-tech-campus/Team13_BE/assets/79629515/f97d4de1-4fb5-4de4-ab99-18203287a98f" width="40%">
+</div>
+
+<p align="center">
+  "크라우드 펀딩에서 모임통장까지"
+  <br>
+  펀더링은 불특정 다수의 자금 투명성을 보장해주는 모임 통장 플랫폼입니다.
+</p>
+
+<br>
+
+### 🧐 펀더링은 어떻게 탄생했나요?
+
+---
+저희는 모임통장과 크라우드 펀딩의 장점들을 취합하여, 효율적인 자금 관리와 투명한 거래를 위한 서비스를 생각하게 되었습니다. 큰 규모의 모임통장을 어떻게 효과적으로 관리할 수 있을까?
+이런 질문에서 시작된 펀더링은 이제 당신의 모임에 필수적인 도구로 자리잡을 준비를 하고 있습니다.
+
+<br>
+
+### 기술적 이슈와 해결 과정
+
+---
+
+* 추후 추가 예정
+
+<br>
+
+### 펀더링 서버 구조도
+
+---
+
+<img alt="server_design" src="https://github.com/Step3-kakao-tech-campus/Team13_BE/assets/79629515/b7af2598-c828-45b0-9e9e-a70fef6fa28d" width="100%">
+
+<br>
+<br>
+
+### 펀더링 화면 구성도
+
+---
+
+<img alt="interface" src="https://github.com/Step3-kakao-tech-campus/Team13_BE/assets/79629515/95d3a950-0028-47a8-b61a-ae6dc0bbeb40" width="100%">
+
+<br>
+<br>
+
+### 사용된 기술 스택
+
+---
+
+<img alt="skillset" src="https://github.com/Step3-kakao-tech-campus/Team13_BE/assets/79629515/604f415b-496d-45df-ba71-02c0b449fe13" width="100%">
+
+<br>
+<br>
+
+### 🔗 관련 링크
+
+---
+
+* [API 문서]()
+* [와이어프레임]()
+* [마켓 리서치]()
+
+
+<br>
+<br>
+
 ## 카카오 테크 캠퍼스 3단계 진행 보드
 
 </br>
@@ -37,6 +104,7 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 </br>
 
 ## 필요 산출물
+
 <details>
 <summary>Step3. Week-1</summary>
 <div>
@@ -226,7 +294,10 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 
 ---
 
+<br>
+
 ## **과제 상세 : 수강생들이 과제를 진행할 때, 유념해야할 것**
+
 
 ```
 1. README.md 파일은 동료 개발자에게 프로젝트에 쉽게 랜딩하도록 돕는 중요한 소통 수단입니다.
@@ -241,9 +312,10 @@ UI 컴포넌트의 명칭과 이를 구현하는 능력은 필수적인 커뮤�
 
 ## **코드리뷰 관련: review branch로 PR시, 아래 내용을 포함하여 코멘트 남겨주세요.**
 
+
 **1. PR 제목과 내용을 아래와 같이 작성 해주세요.**
 
-> PR 제목 : 부산대_0조_아이템명_0주차
+> PR 제목 : 전남대_13조_아이템명_0주차
 > 
 
 </br>
