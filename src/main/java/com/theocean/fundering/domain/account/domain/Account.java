@@ -22,16 +22,12 @@ public class Account {
     @ManyToOne
     private Member member;
 
-    @OneToOne
-    private Post post;
-
     @Column
     private int fundingAmount;
 
     @Builder
-    public Account(Member member, Post post, int fundingAmount) {
+    public Account(Member member, int fundingAmount) {
         this.member = member;
-        this.post = post;
         this.fundingAmount = fundingAmount;
     }
 

@@ -1,24 +1,24 @@
 package com.theocean.fundering.domain.comment.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.theocean.fundering.domain.comment.domain.Comment;
-import lombok.Getter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
+import lombok.Getter;
 
 public class CommentResponse {
 
+    // 전체 댓글 조회 DTO
     @Getter
-    public static class findAllDTO {
-        private final List<commentsDTO> comments;
-
-        @JsonProperty("isLastPage")
+    public static class FindAllDTO {
+        private final List<CommentDTO> comments;
+        private final int currentPage;
         private final boolean isLastPage;
 
-        public findAllDTO(List<commentsDTO> comments, boolean isLastPage) {
+        public FindAllDTO(
+                final List<CommentDTO> comments, final int currentPage, final boolean isLastPage) {
             this.comments = comments;
+            this.currentPage = currentPage;
             this.isLastPage = isLastPage;
         }
 
@@ -26,35 +26,40 @@ public class CommentResponse {
             return isLastPage;
         }
     }
+
+    // findAllDTO의 내부에 들어갈 댓글 정보 DTO
     @Getter
-    public static class commentsDTO {
+    public static class CommentDTO {
         private final Long commentId;
         private final Long writerId;
         private final String writerName;
         private final String writerProfile;
         private final String content;
-        private final Long parentCommentOrder;
-        private final Long commentOrder;
+        private final int replyCount;
+        private final int depth;
+        private final long createdAt;
 
-
-        @JsonProperty("isDeleted")
-        private final boolean isDeleted;
-        private final LocalDateTime createdAt;
-
-        public commentsDTO(Comment comment, String writerName, String writerProfile) {
-            this.commentId = comment.getCommentId();
-            this.writerId = comment.getWriterId();
+        CommentDTO(
+                final Comment comment,
+                final int replyCount,
+                final String writerName,
+                final String writerProfile) {
+            commentId = comment.getCommentId();
+            writerId = comment.getWriterId();
             this.writerName = writerName;
             this.writerProfile = writerProfile;
-            this.content = comment.getContent();
-            this.parentCommentOrder = comment.getParentCommentOrder();
-            this.commentOrder = comment.getCommentOrder();
-            this.isDeleted = comment.isDeleted();
-            this.createdAt = comment.getCreatedAt();
+            content = comment.getContent();
+            this.replyCount = replyCount;
+            depth = comment.getDepth();
+            createdAt = comment.getEpochSecond();
         }
 
-        public boolean getIsDeleted() {
-            return isDeleted;
+        public static CommentDTO fromEntity(
+                final Comment comment,
+                final int replyCount,
+                final String nickname,
+                final String profileImage) {
+            return new CommentDTO(comment, replyCount, nickname, profileImage);
         }
     }
 }

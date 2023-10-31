@@ -21,3 +21,15 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
+
+cloud:
+  aws:
+    s3:
+      bucket: fundering-img
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+#    credentials:
+#      profile-name: default

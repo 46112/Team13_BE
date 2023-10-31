@@ -1,7 +1,7 @@
 package com.theocean.fundering.global.jwt.service;
 
 import com.theocean.fundering.domain.member.repository.MemberRepository;
-import com.theocean.fundering.domain.member.domain.Member;
+import com.theocean.fundering.global.jwt.userInfo.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,14 +15,9 @@ public class LoginService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("해당 이메일이 존재하지 않습니다."));
-
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(member.getEmail())
-                .password(member.getPassword())
-                .roles(member.getUserRole().name())
-                .build();
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+        return CustomUserDetails.from(memberRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("해당 이메일이 존재하지 않습니다."))
+        );
     }
 }

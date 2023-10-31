@@ -6,8 +6,8 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/fundering;MODE=MySQL
-#    url: jdbc:h2:mem:test;MODE=MySQL
+#    url: jdbc:h2:tcp://localhost/~/fundering;MODE=MySQL
+    url: jdbc:h2:mem:test;MODE=MySQL
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -31,3 +31,15 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
+
+cloud:
+  aws:
+    s3:
+      bucket: fundering-img
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+    credentials:
+      profile-name: default

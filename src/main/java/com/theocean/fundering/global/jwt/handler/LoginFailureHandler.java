@@ -22,14 +22,12 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     private final ObjectMapper objectMapper;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                        AuthenticationException exception) throws IOException {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    public void onAuthenticationFailure(final HttpServletRequest request, final HttpServletResponse response,
+                                        final AuthenticationException exception) throws IOException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        log.info("로그인에 실패했습니다. 메시지 : {}", exception.getMessage());
-        String result = objectMapper.writeValueAsString(ApiUtils.error(FAILURE_MESSAGE, new Exception400("아이디나 비밀번호가 잘못 되었습니다.").status()));
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        final String result = objectMapper.writeValueAsString(ApiUtils.error(FAILURE_MESSAGE, new Exception401("아이디나 비밀번호가 잘못 되었습니다.").status()));
         response.getWriter().write(result);
     }
 }
