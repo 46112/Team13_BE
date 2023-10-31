@@ -3,7 +3,9 @@ package com.theocean.fundering.comment;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theocean.fundering.domain.comment.controller.CommentController;
 import com.theocean.fundering.domain.comment.dto.CommentRequest;
-import com.theocean.fundering.domain.comment.service.CommentService;
+import com.theocean.fundering.domain.comment.service.CreateCommentService;
+import com.theocean.fundering.domain.comment.service.DeleteCommentService;
+import com.theocean.fundering.domain.comment.service.ReadCommentService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,7 +31,13 @@ public class CommentControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private CommentService commentService;
+    private CreateCommentService createCommentService;
+
+    @MockBean
+    private DeleteCommentService deleteCommentService;
+
+    @MockBean
+    private ReadCommentService readCommentService;
 
 
     @DisplayName("USER role을 지닌 유저는 댓글 생성에 성공합니다.")
@@ -75,7 +82,7 @@ public class CommentControllerTest {
     @Test
     public void createComment_withEmptyContent_shouldReturn400() throws Exception {
         // Given
-        CommentRequest.saveDTO request = CommentRequest.saveDTO.builder().content("").build();
+        CommentRequest.SaveDTO request = CommentRequest.SaveDTO.builder().content("").build();
         String jsonRequest = new ObjectMapper().writeValueAsString(request);
 
         // When & Then
