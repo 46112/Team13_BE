@@ -9,8 +9,8 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
     }
 
     @Override
-    public String getId() {
-        return String.valueOf(attributes.get("id"));
+    public Long getId() {
+        return Long.valueOf(attributes.get("id").toString());
     }
 
     @Override
@@ -38,13 +38,16 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
     }
 
     @Override
-    public String getPhoneNumber() {
+    public String getEmail() {
         Map<String, Object> account = (Map<String, Object>) attributes.get("kakao_account");
+        Map<String, Object> profile = (Map<String, Object>) account.get("profile");
 
-        if (account == null) {
+        if (account == null || profile == null) {
             return null;
         }
 
-        return (String) account.get("phone_number");
+        return (String) account.get("email");
     }
+
+
 }

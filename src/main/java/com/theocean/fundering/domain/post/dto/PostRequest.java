@@ -18,7 +18,7 @@ public class PostRequest {
         private String writer;
         private Long celebId;
         private String title;
-        private String content;
+        private String introduction;
         private String thumbnail;
         private int targetPrice;
         private LocalDateTime deadline;
@@ -29,7 +29,7 @@ public class PostRequest {
                     .writer(writer)
                     .celebrity(celebrity)
                     .title(title)
-                    .content(content)
+                    .introduction(introduction)
                     .thumbnail(thumbnail)
                     .targetPrice(targetPrice)
                     .deadline(deadline)
@@ -37,18 +37,50 @@ public class PostRequest {
         }
 
         @Builder
-        public PostWriteDTO(Long writerId, String writer, Long celebId, String title, String content, String thumbnail, int targetPrice, LocalDateTime deadline){
+        public PostWriteDTO(Long writerId, String writer, Long celebId, String title, String introduction, String thumbnail, int targetPrice, LocalDateTime deadline){
             this.writer = writer;
             this.writerId = writerId;
             this.celebId = celebId;
             this.title = title;
-            this.content = content;
+            this.introduction = introduction;
             this.thumbnail = thumbnail;
             this.targetPrice = targetPrice;
             this.deadline = deadline;
             this.createdAt = LocalDateTime.now();
         }
 
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @ToString
+    public static class PostEditDTO{
+        private String title;
+        private String introduction;
+        private String thumbnail;
+        private int targetPrice;
+        private LocalDateTime deadline;
+        private LocalDateTime modifiedAt;
+
+        public Post toEntity(){
+            return Post.builder()
+                    .title(title)
+                    .introduction(introduction)
+                    .thumbnail(thumbnail)
+                    .targetPrice(targetPrice)
+                    .deadline(deadline)
+                    .build();
+        }
+        @Builder
+        public PostEditDTO(String title, String introduction, String thumbnail, int targetPrice, LocalDateTime deadline){
+            this.title = title;
+            this.introduction = introduction;
+            this.thumbnail = thumbnail;
+            this.targetPrice = targetPrice;
+            this.deadline = deadline;
+            this.modifiedAt = LocalDateTime.now();
+        }
     }
 
 }

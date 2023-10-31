@@ -18,5 +18,5 @@ public class Exception500 extends RuntimeException {
     public HttpStatus status() {
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }
-
 }
+

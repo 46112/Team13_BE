@@ -6,6 +6,7 @@ import com.theocean.fundering.global.oauth2.CustomOAuth2User;
 import com.theocean.fundering.global.oauth2.OAuthAttributes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -13,6 +14,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Map;
 
 @Slf4j
@@ -29,26 +31,33 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
-        String userNameAttributeName = userRequest.getClientRegistration()
-                .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
-        /*OAuth2UserService delegate = new DefaultOAuth2UserService();
-        OAuth2User oAuth2User = delegate.loadUser(userRequest);
+        OAuthAttributes extractedAttributes = OAuthAttributes.of(userNameAttributeName, attributes);
 
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        log.info("registrationId : {}", registrationId);
-        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
-                .getUserInfoEndpoint().getUserNameAttributeName();
-        log.info("userNameAttributeName : {}", userNameAttributeName);
+        Member createdUser = getUser(extractedAttributes);
 
-        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-        log.info("attributes : {}", attributes);
+        return new CustomOAuth2User(
+                Collections.singleton(new SimpleGrantedAuthority(createdUser.getUserRole().name())),
+                attributes,
+                extractedAttributes.getNameAttributeKey(),
+                createdUser.getEmail(),
+                createdUser.getUserRole()
+        );
+    }
 
-        Member member = saveOrUpdate(attributes);
-        log.info("member : {}", member);
+    private Member getUser(OAuthAttributes attributes) {
+        Member findMember = memberRepository.findById(attributes.getOauth2UserInfo().getId()).orElse(null);
 
-        return new CustomOAuth2User(member, attributes);*/
-        return null;
+        if (findMember == null) {
+            return saveMember(attributes);
+        }
+        return findMember;
+    }
+
+    private Member saveMember(OAuthAttributes attributes) {
+        Member newMember = attributes.toEntity();
+        return memberRepository.save(newMember);
     }
 }

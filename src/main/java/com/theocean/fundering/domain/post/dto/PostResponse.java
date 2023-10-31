@@ -1,7 +1,5 @@
 package com.theocean.fundering.domain.post.dto;
 
-import com.theocean.fundering.domain.celebrity.domain.Celebrity;
-import com.theocean.fundering.domain.member.domain.Member;
 import com.theocean.fundering.domain.post.domain.Post;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,12 +21,11 @@ public class PostResponse {
         private String content;
         private String thumbnail;
         private int targetPrice;
+        private int currentAmount;
         private LocalDateTime deadline;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private int participant;
-        private double progress;
-        private int difference;
 
 
         public FindByPostIdDTO(Post post){
@@ -38,15 +35,14 @@ public class PostResponse {
             this.celebrity = post.getCelebrity().getCelebName();
             this.celebImg = post.getCelebrity().getProfileImage();
             this.title = post.getTitle();
-            this.content = post.getContent();
+            this.content = post.getIntroduction();
             this.thumbnail = post.getThumbnail();
             this.targetPrice = post.getTargetPrice();
+            this.currentAmount = post.getAccount().getFundingAmount();
             this.deadline = post.getDeadline();
             this.createdAt = post.getCreatedAt();
             this.modifiedAt = post.getModifiedAt();
             this.participant = post.getParticipants();
-            this.progress = ((double) post.getTargetPrice() / post.getAccount().getFundingAmount()) * 100;
-            this.difference = post.getTargetPrice() - post.getAccount().getFundingAmount();
         }
     }
 
@@ -62,7 +58,7 @@ public class PostResponse {
         private String title;
         private String thumbnail;
         private int targetPrice;
-        private double progress;
+        private int currentAmount;
         private LocalDateTime deadline;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
@@ -76,7 +72,7 @@ public class PostResponse {
             this.title = post.getTitle();
             this.thumbnail = post.getThumbnail();
             this.targetPrice = post.getTargetPrice();
-            this.progress = ((double) post.getTargetPrice() / post.getAccount().getFundingAmount()) * 100;
+            this.currentAmount = post.getAccount().getFundingAmount();
             this.deadline = post.getDeadline();
             this.createdAt = post.getCreatedAt();
             this.modifiedAt = post.getModifiedAt();
