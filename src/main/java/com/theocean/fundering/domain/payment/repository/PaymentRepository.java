@@ -1,4 +1,4 @@
-package com.theocean.fundering.domain.payment.domain.repository;
+package com.theocean.fundering.domain.payment.repository;
 
 
 import com.theocean.fundering.domain.payment.domain.Payment;

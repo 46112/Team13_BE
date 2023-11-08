@@ -18,6 +18,7 @@ import java.util.Objects;
 public class Member extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long userId;
 
     @Setter
@@ -30,7 +31,10 @@ public class Member extends AuditingFields {
     @Column(nullable = false, length = 50)
     private String email;
 
-    @Enumerated(value = EnumType.STRING)
+    @Column(length = 11)
+    private int phoneNumber;
+
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
     private String socialId; // 로그인한 소셜 타입의 식별자 값 (일반 로그인인 경우 null)
@@ -39,22 +43,29 @@ public class Member extends AuditingFields {
 
     private String profileImage; // 프로필 이미지
 
-    private boolean isAdmin;
-
-    public void changeNickname(String nickname){
+    public void changeNickname(final String nickname){
         this.nickname = nickname;
     }
 
-    public void setPassword(String password){
+    public void setPassword(final String password){
         this.password = password;
     }
 
-    public void updateRefreshToken(String updateRefreshToken) {
-        this.refreshToken = updateRefreshToken;
+    public void updateRefreshToken(final String updateRefreshToken) {
+        refreshToken = updateRefreshToken;
+    }
+
+    public void changePhoneNumber(final int phoneNumber){
+        this.phoneNumber = phoneNumber;
+    }
+
+
+    public void changeProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     @Builder
-    public Member(Long userId, String nickname, String password, String email, UserRole userRole, String profileImage) {
+    public Member(final Long userId, final String nickname, final String password, final String email, final UserRole userRole, final String profileImage) {
         this.userId = userId;
         this.nickname = nickname;
         this.password = password;
@@ -64,9 +75,9 @@ public class Member extends AuditingFields {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof Member member)) return false;
+        if (!(o instanceof final Member member)) return false;
         return Objects.equals(userId, member.userId);
     }
 
@@ -74,4 +85,7 @@ public class Member extends AuditingFields {
     public int hashCode() {
         return Objects.hash(userId);
     }
+
+
 }
+

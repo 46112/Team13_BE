@@ -19,10 +19,14 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
+    private Long id;
     private String email;
     private String password;
     private UserRole role;
 
+    public Long getId() {
+        return id;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -61,6 +65,7 @@ public class CustomUserDetails implements UserDetails {
 
     public static CustomUserDetails from(final Member member){
         return CustomUserDetails.builder()
+                .id(member.getUserId())
                 .email(member.getEmail())
                 .password(member.getPassword())
                 .role(member.getUserRole())

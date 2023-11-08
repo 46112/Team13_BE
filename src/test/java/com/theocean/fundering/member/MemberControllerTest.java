@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theocean.fundering.domain.member.domain.Member;
 import com.theocean.fundering.domain.member.domain.constant.UserRole;
 import com.theocean.fundering.domain.member.dto.EmailRequestDTO;
-import com.theocean.fundering.domain.member.dto.MemberRequestDTO;
+import com.theocean.fundering.domain.member.dto.MemberSignUpRequestDTO;
 import com.theocean.fundering.domain.member.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
+@MockBean(JpaMetamodelMappingContext.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class MemberControllerTest {
     private static final String KEY_EMAIL = "email";
@@ -82,11 +85,7 @@ class MemberControllerTest {
     @Test
     void join_test() throws Exception {
         //given
-        final MemberRequestDTO requestDTO = MemberRequestDTO.builder()
-                .email("test@kakao.com")
-                .nickname("boseungk")
-                .password("password1!")
-                .build();
+        final MemberSignUpRequestDTO requestDTO = MemberSignUpRequestDTO.of("test@kakao.com", "password1!", "boseungk");
         final String requestBody = om.writeValueAsString(requestDTO);
 
         //when
@@ -147,9 +146,8 @@ class MemberControllerTest {
     @Test
     void email_success_test() throws Exception {
         //given
-        final EmailRequestDTO requestDTO = EmailRequestDTO.builder()
-                .email("test@kakao.com")
-                .build();
+        final EmailRequestDTO requestDTO = EmailRequestDTO.from("test@kakao.com");
+
         final String requestBody = om.writeValueAsString(requestDTO);
 
         //when
@@ -170,9 +168,8 @@ class MemberControllerTest {
     @Test
     void email_fail_test() throws Exception {
         //given
-        final EmailRequestDTO requestDTO = EmailRequestDTO.builder()
-                .email("test@kakaocom")
-                .build();
+        final EmailRequestDTO requestDTO = EmailRequestDTO.from("test@kakaocom");
+
         final String requestBody = om.writeValueAsString(requestDTO);
 
         //when
@@ -218,6 +215,6 @@ class MemberControllerTest {
         );
         //then
         result.andExpect(status().isForbidden())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.success").value("false"));;
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success").value("false"));
     }
 }
