@@ -1,14 +1,12 @@
 package com.theocean.fundering.domain.celebrity.domain;
 
+import com.theocean.fundering.domain.celebrity.domain.constant.ApprovalStatus;
 import com.theocean.fundering.domain.celebrity.domain.constant.CelebGender;
 import com.theocean.fundering.domain.celebrity.domain.constant.CelebType;
-import com.theocean.fundering.domain.follow.domain.Follow;
 import com.theocean.fundering.global.utils.AuditingFields;
-import com.theocean.fundering.domain.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -21,6 +19,7 @@ import java.util.Objects;
 public class Celebrity extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long celebId;
 
     @Column(nullable = false, length = 15)
@@ -40,32 +39,13 @@ public class Celebrity extends AuditingFields {
     @Column(nullable = false)
     private String profileImage;
 
-    @OneToMany(mappedBy = "celebrity")
-    private List<Follow> followers;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ApprovalStatus status = ApprovalStatus.PENDING;
 
-    @OneToMany(mappedBy = "celebrity")
-    private List<Post> post;
-
-    private boolean isApproved;
-
-    public void changeCelebName(String celebName) {
-        this.celebName = celebName;
-    }
-
-    public void changeCelebGender(CelebGender celebGender) {
-        this.celebGender = celebGender;
-    }
-
-    public void changeCeleType(String celebGroup) {
-        this.celebType = celebType;
-    }
-
-    public void changeCeleGroup(CelebType celebType) {
-        this.celebType = celebType;
-    }
-
-    public void changeProfileImage(String profileImage) {
-        this.profileImage = profileImage;
+    public Celebrity approvalCelebrity(){
+        status = ApprovalStatus.APPROVED;
+        return this;
     }
 
     @Builder

@@ -38,7 +38,7 @@ public class OAuthAttributes {
                 .email(oauth2UserInfo.getEmail())
                 .password(PasswordUtil.generateRandomPassword())//무작위 비밀번호 암호화해서 생성
                 .profileImage(oauth2UserInfo.getImageUrl())
-                .userRole(UserRole.GUEST)
+                .userRole(UserRole.USER)
                 .build();
     }
 }

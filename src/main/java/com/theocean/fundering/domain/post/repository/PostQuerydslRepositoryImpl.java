@@ -53,7 +53,7 @@ public class PostQuerydslRepositoryImpl implements PostQuerydslRepository{
     }
 
     @Override
-    public Slice<PostResponse.FindAllDTO> findAllByWriterId(@Nullable Long postId, Long writerId, Pageable pageable) {
+    public Slice<PostResponse.FindAllDTO> findAllByWriterEmail(@Nullable Long postId, String email, Pageable pageable) {
         List<PostResponse.FindAllDTO> contents = jpaQueryFactory
                 .select(Projections.bean(PostResponse.FindAllDTO.class,
                         post.title,
@@ -65,7 +65,7 @@ public class PostQuerydslRepositoryImpl implements PostQuerydslRepository{
                         post.deadline,
                         post.createdAt))
                 .from(post)
-                .where(ltPostId(postId), eqWriter(writerId))
+                .where(ltPostId(postId), eqWriter(email))
                 .orderBy(post.postId.desc())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -109,7 +109,7 @@ public class PostQuerydslRepositoryImpl implements PostQuerydslRepository{
         } else if(sort.toString().equals("deadline")) {
             specifiers.add(new OrderSpecifier(Order.DESC, post.deadline));
         } else if(sort.toString().equals("amount")){
-            specifiers.add(new OrderSpecifier(Order.DESC, post.account.fundingAmount));
+            specifiers.add(new OrderSpecifier(Order.DESC, post.account.balance));
         }
         return specifiers.toArray(new OrderSpecifier[specifiers.size()]);
     }
@@ -119,8 +119,8 @@ public class PostQuerydslRepositoryImpl implements PostQuerydslRepository{
         return post.postId.lt(postId);
     }
 
-    private BooleanExpression eqWriter(Long writerId){
-        return post.writer.userId.eq(writerId);
+    private BooleanExpression eqWriter(String email){
+        return post.writer.email.eq(email);
     }
     private BooleanExpression containKeyword(String keyword){
         return post.title.contains(keyword);

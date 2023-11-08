@@ -1,15 +1,17 @@
 package com.theocean.fundering.domain.post.controller;
 
 
-import com.theocean.fundering.domain.celebrity.dto.PageResponse;
+import com.theocean.fundering.global.dto.PageResponse;
 import com.theocean.fundering.domain.post.dto.PostRequest;
 import com.theocean.fundering.domain.post.dto.PostResponse;
 import com.theocean.fundering.domain.post.service.PostService;
+import com.theocean.fundering.global.jwt.userInfo.CustomUserDetails;
 import com.theocean.fundering.global.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,8 +29,12 @@ public class PostController {
     }
 
     @GetMapping("/posts/{postId}")
-    public ResponseEntity<?> findByPostId(@PathVariable Long postId){
-        PostResponse.FindByPostIdDTO responseDTO = postService.findByPostId(postId);
+    public ResponseEntity<?> findByPostId(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long postId){
+        String memberEmail = null;
+        if (userDetails != null)
+            memberEmail = userDetails.getEmail();
+        PostResponse.FindByPostIdDTO responseDTO = postService.findByPostId(memberEmail, postId);
+
         return ResponseEntity.ok(ApiUtils.success(responseDTO));
 
     }
@@ -36,20 +42,26 @@ public class PostController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/posts/{postId}/introduction")
     public ResponseEntity<?> postIntroduction(@PathVariable Long postId){
-        String introduction = postService.findByPostId(postId).getContent();
+        String introduction = postService.getIntroduction(postId);
         return ResponseEntity.ok(ApiUtils.success(introduction));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/posts/write")
-    public ResponseEntity<?> writePost(@RequestBody PostRequest.PostWriteDTO postWriteDTO, @RequestPart(value = "thumbnail") MultipartFile thumbnail){
-        postService.writePost(postWriteDTO, thumbnail);
+    public ResponseEntity<?> writePost(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                       @RequestBody PostRequest.PostWriteDTO postWriteDTO,
+                                       @RequestPart(value = "thumbnail") MultipartFile thumbnail){
+        String writerEmail = userDetails.getEmail();
+        postService.writePost(writerEmail, postWriteDTO, thumbnail);
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/posts/{postId}/edit")
-    public ResponseEntity<?> editPost(@PathVariable Long postId, @RequestBody PostRequest.PostEditDTO postEditDTO, @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail){
+    public ResponseEntity<?> editPost(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                      @PathVariable Long postId,
+                                      @RequestBody PostRequest.PostEditDTO postEditDTO,
+                                      @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail){
         Long editedPost = postService.editPost(postId, postEditDTO, thumbnail);
         return ResponseEntity.ok(ApiUtils.success(editedPost));
     }

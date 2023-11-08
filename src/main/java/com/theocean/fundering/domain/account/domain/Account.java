@@ -1,7 +1,5 @@
 package com.theocean.fundering.domain.account.domain;
 
-import com.theocean.fundering.domain.post.domain.Post;
-import com.theocean.fundering.domain.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,29 +10,33 @@ import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "account")
+@Table(name = "account", indexes = @Index(columnList = "postId"))
 @Entity
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountId;
 
-    @ManyToOne
-    private Member member;
+    @Column(nullable = false)
+    private Long managerId;
+
+    @Column(nullable = false)
+    private Long postId;
 
     @Column
-    private int fundingAmount;
+    private int balance;
 
     @Builder
-    public Account(Member member, int fundingAmount) {
-        this.member = member;
-        this.fundingAmount = fundingAmount;
+    public Account(final Long managerId, final Long postId) {
+        this.managerId = managerId;
+        this.postId = postId;
+        this.balance = 0;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof Account account)) return false;
+        if (!(o instanceof final Account account)) return false;
         return Objects.equals(accountId, account.accountId);
     }
 
