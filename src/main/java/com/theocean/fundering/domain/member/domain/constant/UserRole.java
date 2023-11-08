@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 
 public enum UserRole {
-    GUEST("GUEST"),
-    USER("USER");
+    USER("USER"),
+    ADMIN("ADMIN");
     private final String type;
     UserRole(final String type){
         this.type = type;

@@ -36,11 +36,15 @@ public class Payment extends AuditingFields {
     @Column(nullable = false)
     private Integer amount;
 
+    @Column
+    private String impUid;
+
     // 생성자
     @Builder
-    public Payment(Member member, Post post, Integer amount) {
+    public Payment(Member member, Post post, String impUid, Integer amount) {
         this.member = member;
         this.post = post;
+        this.impUid = impUid;
         this.amount = amount;
     }
 

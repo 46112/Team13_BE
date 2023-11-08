@@ -10,6 +10,6 @@ import java.util.List;
 public interface PostQuerydslRepository {
     Slice<PostResponse.FindAllDTO> findAll(@Nullable Long postId, Pageable pageable);
 
-    Slice<PostResponse.FindAllDTO> findAllByWriterId(@Nullable Long postId, Long writerId, Pageable pageable);
+    Slice<PostResponse.FindAllDTO> findAllByWriterEmail(@Nullable Long postId, String email, Pageable pageable);
     Slice<PostResponse.FindAllDTO> findAllByKeyword(@Nullable Long postId, String keyword, Pageable pageable);
 }

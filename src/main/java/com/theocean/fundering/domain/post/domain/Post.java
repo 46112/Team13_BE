@@ -28,10 +28,10 @@ public class Post extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member writer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Celebrity celebrity;
 
     @Column(nullable = false, length = 100)

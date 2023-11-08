@@ -14,8 +14,6 @@ public class PostRequest {
     @NoArgsConstructor
     @ToString
     public static class PostWriteDTO { // 게시글 작성 DTO
-        private Long writerId;
-        private String writer;
         private Long celebId;
         private String title;
         private String introduction;
@@ -37,9 +35,7 @@ public class PostRequest {
         }
 
         @Builder
-        public PostWriteDTO(Long writerId, String writer, Long celebId, String title, String introduction, String thumbnail, int targetPrice, LocalDateTime deadline){
-            this.writer = writer;
-            this.writerId = writerId;
+        public PostWriteDTO(Long celebId, String title, String introduction, String thumbnail, int targetPrice, LocalDateTime deadline){
             this.celebId = celebId;
             this.title = title;
             this.introduction = introduction;
