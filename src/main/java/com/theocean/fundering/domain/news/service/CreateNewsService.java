@@ -34,7 +34,7 @@ public class CreateNewsService {
                         .findById(postId)
                         .orElseThrow(() -> new Exception404(ErrorCode.ER03));
 
-        if (!post.getWriter().getUserId().equals(writerId))
+        if (!post.getWriter().getMemberId().equals(writerId))
             throw new Exception403(ErrorCode.ER15);
 
         // News 엔터티를 생성합니다.

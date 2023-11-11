@@ -39,7 +39,7 @@ public class WithdrawalService {
 
         final Optional<Post> post = postRepository.findById(postId);
         if (post.isEmpty()) throw new Exception404(ErrorCode.ER03);
-        final Long ownerId = post.get().getWriter().getUserId();
+        final Long ownerId = post.get().getWriter().getMemberId();
         if (!ownerId.equals(memberId)) throw new Exception403(ErrorCode.ER15);
 
         final Withdrawal withdrawal = Withdrawal.builder()

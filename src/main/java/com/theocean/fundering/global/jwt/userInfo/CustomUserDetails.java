@@ -1,7 +1,7 @@
 package com.theocean.fundering.global.jwt.userInfo;
 
 import com.theocean.fundering.domain.member.domain.Member;
-import com.theocean.fundering.domain.member.domain.constant.UserRole;
+import com.theocean.fundering.domain.member.domain.constant.MemberRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,14 +22,14 @@ public class CustomUserDetails implements UserDetails {
     private Long id;
     private String email;
     private String password;
-    private UserRole role;
+    private MemberRole role;
 
     public static CustomUserDetails from(final Member member) {
         return builder()
-                .id(member.getUserId())
+                .id(member.getMemberId())
                 .email(member.getEmail())
                 .password(member.getPassword())
-                .role(member.getUserRole())
+                .role(member.getMemberRole())
                 .build();
     }
 

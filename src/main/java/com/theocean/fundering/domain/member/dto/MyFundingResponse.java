@@ -116,7 +116,7 @@ public class MyFundingResponse {
             postId = post.getPostId();
             thumbnail = post.getThumbnail();
             title = post.getTitle();
-            userId = post.getWriter().getUserId();
+            userId = post.getWriter().getMemberId();
             profileImage = post.getWriter().getProfileImage();
             nickname = post.getWriter().getNickname();
         }

@@ -76,7 +76,7 @@ public class MyFundingService {
 
     public List<MyFundingResponse.WithdrawalDTO> findAwaitingApprovalWithdrawals(final Long userId, final Pageable pageable) {
         final List<MyFundingResponse.WithdrawalDTO> responseDTO = new ArrayList<>();
-        final List<Long> postIdList = adminRepository.findByUserId(userId);
+        final List<Long> postIdList = adminRepository.findByMemberId(userId);
         for (final Long postId : postIdList) {
             final List<Withdrawal> withdrawalList = withdrawalRepository.findWithdrawalByPostId(postId);
             if (null != withdrawalList) {
@@ -94,7 +94,7 @@ public class MyFundingService {
 
     @Transactional
     public void approvalWithdrawal(final Long userId, final Long postId, final Long withdrawalId) {
-        final List<Long> postIdList = adminRepository.findByUserId(userId);
+        final List<Long> postIdList = adminRepository.findByMemberId(userId);
         final boolean isAdmin = postIdList.stream().anyMatch(id -> id.equals(postId));
         if (!isAdmin) throw new Exception400(ErrorCode.ER17);
         final Withdrawal withdrawal = withdrawalRepository.findById(withdrawalId).orElseThrow(
@@ -112,7 +112,7 @@ public class MyFundingService {
 
     @Transactional
     public void rejectWithdrawal(final Long userId, final Long postId, final Long withdrawalId) {
-        final List<Long> postIdList = adminRepository.findByUserId(userId);
+        final List<Long> postIdList = adminRepository.findByMemberId(userId);
         final boolean isAdmin = postIdList.stream().anyMatch(id -> id.equals(postId));
         if (!isAdmin)
             throw new Exception400(ErrorCode.ER17);

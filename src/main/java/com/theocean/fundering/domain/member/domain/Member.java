@@ -1,6 +1,6 @@
 package com.theocean.fundering.domain.member.domain;
 
-import com.theocean.fundering.domain.member.domain.constant.UserRole;
+import com.theocean.fundering.domain.member.domain.constant.MemberRole;
 import com.theocean.fundering.global.utils.AuditingFields;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +32,7 @@ public class Member extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long userId;
+    private Long memberId;
 
     @Setter
     @Column(nullable = false, length = 15, name = "nickname")
@@ -49,7 +49,7 @@ public class Member extends AuditingFields {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role")
-    private UserRole userRole;
+    private MemberRole memberRole;
 
     @Column(name = "refresh_token")
     private String refreshToken; // 리프레시 토큰
@@ -80,29 +80,29 @@ public class Member extends AuditingFields {
     }
 
     @Builder
-    public Member(final Long userId, final String nickname, final String password, final String email, final UserRole userRole, final String profileImage) {
-        this.userId = userId;
+    public Member(final Long memberId, final String nickname, final String password, final String email, final MemberRole memberRole, final String profileImage) {
+        this.memberId = memberId;
         this.nickname = nickname;
         this.password = password;
         this.email = email;
         this.profileImage = profileImage;
-        this.userRole = userRole;
+        this.memberRole = memberRole;
     }
 
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof final Member member)) return false;
-        return Objects.equals(userId, member.userId);
+        return Objects.equals(memberId, member.memberId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId);
+        return Objects.hash(memberId);
     }
 
 
-    public void updateUserSetting(final String nickname, final String encodePassword, final String phoneNumber, final String profileImage) {
+    public void updateMemberSetting(final String nickname, final String encodePassword, final String phoneNumber, final String profileImage) {
         changeNickname(nickname);
         password = encodePassword;
         changePhoneNumber(phoneNumber);

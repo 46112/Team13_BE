@@ -36,7 +36,7 @@ public class PostResponse {
 
         public FindByPostIdDTO(final Post post) {
             postId = post.getPostId();
-            writerId = post.getWriter().getUserId();
+            writerId = post.getWriter().getMemberId();
             writer = post.getWriter().getNickname();
             writerImg = post.getWriter().getProfileImage();
             celebId = post.getCelebrity().getCelebId();
@@ -80,7 +80,7 @@ public class PostResponse {
 
         public FindAllDTO(final Post post) {
             postId = post.getPostId();
-            writerId = post.getWriter().getUserId();
+            writerId = post.getWriter().getMemberId();
             writer = post.getWriter().getNickname();
             celebId = post.getCelebrity().getCelebId();
             celebrity = post.getCelebrity().getCelebName();

@@ -54,7 +54,7 @@ public class PostService {
         final Post newPost = postRepository.save(dto.toEntity(writer, celebrity, thumbnailURL, deadline, PostStatus.ONGOING));
 
         final Account account = Account.builder()
-                .managerId(writer.getUserId())
+                .managerId(writer.getMemberId())
                 .postId(newPost.getPostId())
                 .build();
         accountRepository.save(account);
@@ -70,8 +70,8 @@ public class PostService {
 
         if (null != email) {
             final Member member = memberRepository.findByEmail(email).orElseThrow();
-            final boolean isFollowed = FOLLOW_COUNT_ZERO != followRepository.countByCelebIdAndFollowId(postPS.getCelebrity().getCelebId(), member.getUserId());
-            final boolean isHeart = HEART_COUNT_ZERO != heartRepository.countByPostIdAndHeartId(postPS.getPostId(), member.getUserId());
+            final boolean isFollowed = FOLLOW_COUNT_ZERO != followRepository.countByCelebIdAndFollowId(postPS.getCelebrity().getCelebId(), member.getMemberId());
+            final boolean isHeart = HEART_COUNT_ZERO != heartRepository.countByPostIdAndHeartId(postPS.getPostId(), member.getMemberId());
             if (postPS.getWriter().getEmail().equals(email))
                 result.setEqWriter(true);
             result.setFollowed(isFollowed);
@@ -86,7 +86,7 @@ public class PostService {
         final var postList = postRepository.findAllInfiniteScroll(pageable);
         if (null != email) {
             final Member member = memberRepository.findByEmail(email).orElseThrow();
-            postList.stream().filter(p -> HEART_COUNT_ZERO != heartRepository.countByPostIdAndHeartId(p.getPostId(), member.getUserId())).forEach(p -> p.setHeart(true));
+            postList.stream().filter(p -> HEART_COUNT_ZERO != heartRepository.countByPostIdAndHeartId(p.getPostId(), member.getMemberId())).forEach(p -> p.setHeart(true));
         }
         return new PageResponse<>(postList);
 
@@ -97,7 +97,7 @@ public class PostService {
         final var postList = postRepository.findAllByWriterName(nickname, pageable);
         if (null != email) {
             final Member member = memberRepository.findByEmail(email).orElseThrow();
-            postList.stream().filter(p -> HEART_COUNT_ZERO != heartRepository.countByPostIdAndHeartId(p.getPostId(), member.getUserId())).forEach(p -> p.setHeart(true));
+            postList.stream().filter(p -> HEART_COUNT_ZERO != heartRepository.countByPostIdAndHeartId(p.getPostId(), member.getMemberId())).forEach(p -> p.setHeart(true));
         }
         return new PageResponse<>(postList);
     }
@@ -128,7 +128,7 @@ public class PostService {
         final var postList = postRepository.findAllByKeyword(keyword, pageable);
         if (null != email) {
             final Member member = memberRepository.findByEmail(email).orElseThrow();
-            postList.stream().filter(p -> HEART_COUNT_ZERO != heartRepository.countByPostIdAndHeartId(p.getPostId(), member.getUserId())).forEach(p -> p.setHeart(true));
+            postList.stream().filter(p -> HEART_COUNT_ZERO != heartRepository.countByPostIdAndHeartId(p.getPostId(), member.getMemberId())).forEach(p -> p.setHeart(true));
         }
         return new PageResponse<>(postList);
 

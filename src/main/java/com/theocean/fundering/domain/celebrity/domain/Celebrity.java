@@ -68,7 +68,7 @@ public class Celebrity extends AuditingFields {
         return this;
     }
 
-    public Celebrity minusFollowerCount() {
+    public Celebrity subtractFollowerCount() {
         followerCount -= 1;
         return this;
     }

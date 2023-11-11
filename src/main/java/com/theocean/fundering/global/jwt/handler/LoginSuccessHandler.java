@@ -19,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import java.io.IOException;
-import java.util.Optional;
 
 
 @Slf4j
@@ -47,7 +46,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         member.updateRefreshToken(refreshToken);
         memberRepository.saveAndFlush(member);
 
-        final boolean isAdmin = adminRepository.findByUserId(member.getUserId()).stream().anyMatch(id -> id.equals(member.getUserId()));
+        final boolean isAdmin = adminRepository.findByMemberId(member.getMemberId()).stream().anyMatch(id -> id.equals(member.getMemberId()));
         final var responseDTO = LoginResponse.SuccessDTO.of(member.getProfileImage(), member.getNickname(), isAdmin, refreshToken);
         createResponse(response, responseDTO);
     }

@@ -38,7 +38,7 @@ public class EvidenceController {
     )
     @PostMapping(value = "/posts/{postId}/withdrawals/{withdrawalId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ApiResult<String> evidenceUpload(
+    public ApiResult<String> uploadEvidence(
             @AuthenticationPrincipal final CustomUserDetails userDetails,
             @Parameter(description = "이미지 파일", required = true) @RequestPart("image") final MultipartFile image,
             @Parameter(description = "게시글의 PK") @PathVariable final long postId,

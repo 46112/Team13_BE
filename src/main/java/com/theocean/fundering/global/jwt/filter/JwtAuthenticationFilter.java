@@ -1,9 +1,7 @@
 package com.theocean.fundering.global.jwt.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theocean.fundering.domain.member.domain.Member;
 import com.theocean.fundering.domain.member.repository.MemberRepository;
-import com.theocean.fundering.global.errors.exception.Exception403;
 import com.theocean.fundering.global.jwt.JwtProvider;
 import com.theocean.fundering.global.jwt.userInfo.CustomUserDetails;
 import com.theocean.fundering.global.utils.PasswordUtil;
@@ -69,7 +67,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         final UserDetails userDetailsUser = User.builder()
                 .username(myUser.getEmail())
                 .password(password)
-                .roles(myUser.getUserRole().getType())
+                .roles(myUser.getMemberRole().getType())
                 .build();
 
         final UserDetails customUserDetailsUser = CustomUserDetails.from(myUser);

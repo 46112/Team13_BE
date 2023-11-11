@@ -6,18 +6,18 @@ import jakarta.persistence.AttributeConverter;
 import java.util.Arrays;
 
 
-public enum UserRole {
+public enum MemberRole {
     USER("USER"),
     ADMIN("ADMIN");
     private final String type;
 
-    UserRole(final String type) {
+    MemberRole(final String type) {
         this.type = type;
     }
 
-    public static UserRole fromString(final String type) {
+    public static MemberRole fromString(final String type) {
         return Arrays.stream(values())
-                .filter(userRole -> userRole.type.equals(type))
+                .filter(memberRole -> memberRole.type.equals(type))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown type: %s".formatted(type)));
     }
@@ -39,15 +39,15 @@ public enum UserRole {
         }
     }
 
-    public class UserRoleToStringConverter implements AttributeConverter<UserRole, String> {
+    public class MemberRoleToStringConverter implements AttributeConverter<MemberRole, String> {
 
         @Override
-        public String convertToDatabaseColumn(final UserRole attribute) {
+        public String convertToDatabaseColumn(final MemberRole attribute) {
             return attribute.getType();
         }
 
         @Override
-        public UserRole convertToEntityAttribute(final String dbData) {
+        public MemberRole convertToEntityAttribute(final String dbData) {
             return fromString(dbData);
         }
     }

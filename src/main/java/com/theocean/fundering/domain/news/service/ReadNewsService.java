@@ -21,6 +21,7 @@ public class ReadNewsService {
 
     private final CustomNewsRepositoryImpl customNewsRepository;
     private final PostRepository postRepository;
+    private static final int INDEX_ZERO = 0;
 
     // (기능) 업데이트 글 조회
     public NewsResponse.findAllDTO getNews(final long postId, final long cursor, final int pageSize) {
@@ -34,7 +35,7 @@ public class ReadNewsService {
         // findAllDTO의 isLastPage - pageSize와 가져온 업데이트 글 수가 일치할 때를 대비해 위에서 하나 더 조회한 상태이다
         final boolean isLastPage = updates.size() <= pageSize;
 
-        if (!isLastPage) updates = updates.subList(0, pageSize);
+        if (!isLastPage) updates = updates.subList(INDEX_ZERO, pageSize);
 
         // findAllDTO의 updates
         final List<NewsResponse.newsDTO> updateDTOs = convertToNewsDTOs(updates);

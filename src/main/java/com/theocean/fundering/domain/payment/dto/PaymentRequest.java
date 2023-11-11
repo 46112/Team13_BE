@@ -28,7 +28,7 @@ public class PaymentRequest {
 
         public Payment toEntity(final Member member, final Post post) {
             return Payment.builder()
-                    .memberId(member.getUserId())
+                    .memberId(member.getMemberId())
                     .postId(post.getPostId())
                     .impUid(impUid)
                     .amount(amount)

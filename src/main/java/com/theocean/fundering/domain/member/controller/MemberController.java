@@ -58,7 +58,7 @@ public class MemberController {
     public ApiResult<?> findAllUserSetting(
             @AuthenticationPrincipal final CustomUserDetails userDetails
     ){
-        final var responseDTO = memberService.findAllUserSetting(userDetails.getId());
+        final var responseDTO = memberService.findAllMemberSetting(userDetails.getId());
         return ApiResult.success(responseDTO);
     }
 
@@ -73,7 +73,7 @@ public class MemberController {
             @AuthenticationPrincipal final CustomUserDetails userDetails,
             @Parameter(hidden = true) final Error error
     ){
-        memberService.updateUserSetting(requestDTO, userDetails.getId(), thumbnail);
+        memberService.updateMemberSetting(requestDTO, userDetails.getId(), thumbnail);
         return ApiResult.success(null);
     }
 
@@ -84,7 +84,7 @@ public class MemberController {
     public ApiResult<?> cancellationUser(
             @AuthenticationPrincipal final CustomUserDetails userDetails
     ){
-        memberService.cancellationUser(userDetails.getId());
+        memberService.cancellationMember(userDetails.getId());
         return ApiResult.success(null);
     }
 }

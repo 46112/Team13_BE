@@ -1,7 +1,7 @@
 package com.theocean.fundering.domain.member.dto;
 
 import com.theocean.fundering.domain.member.domain.Member;
-import com.theocean.fundering.domain.member.domain.constant.UserRole;
+import com.theocean.fundering.domain.member.domain.constant.MemberRole;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -65,7 +65,7 @@ public class MemberRequest {
                     .email(email)
                     .nickname(nickname)
                     .password(password)
-                    .userRole(UserRole.USER)
+                    .userRole(MemberRole.USER)
                     .build();
         }
         public void encodePassword(final String encodePassword){

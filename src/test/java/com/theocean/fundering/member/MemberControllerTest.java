@@ -2,7 +2,7 @@ package com.theocean.fundering.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theocean.fundering.domain.member.domain.Member;
-import com.theocean.fundering.domain.member.domain.constant.UserRole;
+import com.theocean.fundering.domain.member.domain.constant.MemberRole;
 import com.theocean.fundering.domain.member.dto.MemberRequest;
 import com.theocean.fundering.domain.member.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
@@ -62,7 +62,7 @@ class MemberControllerTest {
 
     @BeforeEach
     void beforeEach() {
-        final Member member = Member.builder().email(EMAIL).password(delegatingPasswordEncoder.encode(PASSWORD)).nickname(NICKNAME).userRole(UserRole.USER).build();
+        final Member member = Member.builder().email(EMAIL).password(delegatingPasswordEncoder.encode(PASSWORD)).nickname(NICKNAME).userRole(MemberRole.USER).build();
         memberRepository.save(member);
         clear();
     }

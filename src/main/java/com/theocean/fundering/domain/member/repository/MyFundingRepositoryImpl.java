@@ -19,7 +19,7 @@ import static com.theocean.fundering.domain.post.domain.QPost.post;
 public class MyFundingRepositoryImpl implements MyFundingRepository{
     private final JPAQueryFactory queryFactory;
     @Override
-    public Slice<MyFundingResponse.HostDTO> findAllPostingByHost(final Long userId, final Pageable pageable) {
+    public Slice<MyFundingResponse.HostDTO> findAllPostingByHost(final Long memberId, final Pageable pageable) {
         final List<MyFundingResponse.HostDTO> contents =
                 queryFactory.select(Projections.constructor(MyFundingResponse.HostDTO.class,
                                 post.postId,
@@ -35,7 +35,7 @@ public class MyFundingRepositoryImpl implements MyFundingRepository{
                                 post.createdAt
                         ))
                         .from(post)
-                        .where(eqPostWriterId(userId))
+                        .where(eqPostWriterId(memberId))
                         .offset(pageable.getOffset())
                         .orderBy(post.postId.desc())
                         .limit(pageable.getPageSize())
@@ -44,7 +44,7 @@ public class MyFundingRepositoryImpl implements MyFundingRepository{
     }
 
     @Override
-    public Slice<MyFundingResponse.SupporterDTO> findAllPostingBySupporter(final Long userId, final Pageable pageable) {
+    public Slice<MyFundingResponse.SupporterDTO> findAllPostingBySupporter(final Long memberId, final Pageable pageable) {
         final List<MyFundingResponse.SupporterDTO> contents =
                 queryFactory.select(Projections.constructor(MyFundingResponse.SupporterDTO.class,
                                 post.postId,
@@ -62,7 +62,7 @@ public class MyFundingRepositoryImpl implements MyFundingRepository{
                         ))
                         .from(post)
                         .leftJoin(payment).on(payment.memberId.eq(post.postId))
-                        .where(eqPostSupporterId(userId))
+                        .where(eqPostSupporterId(memberId))
                         .offset(pageable.getOffset())
                         .orderBy(post.postId.desc())
                         .limit(pageable.getPageSize())
@@ -71,7 +71,7 @@ public class MyFundingRepositoryImpl implements MyFundingRepository{
     }
 
     @Override
-    public Slice<MyFundingResponse.HeartPostingDTO> findAllPostingByHeart(final Long userId, final Pageable pageable) {
+    public Slice<MyFundingResponse.HeartPostingDTO> findAllPostingByHeart(final Long memberId, final Pageable pageable) {
         final List<MyFundingResponse.HeartPostingDTO> contents =
                 queryFactory.select(Projections.constructor(MyFundingResponse.HeartPostingDTO.class,
                                 post.postId,
@@ -89,8 +89,8 @@ public class MyFundingRepositoryImpl implements MyFundingRepository{
                                 post.modifiedAt,
                                 post.heartCount))
                         .from(post)
-                        .leftJoin(heart).on(heart.memberId.eq(userId))
-                        .where(eqHeart(userId))
+                        .leftJoin(heart).on(heart.memberId.eq(memberId))
+                        .where(eqHeart(memberId))
                         .offset(pageable.getOffset())
                         .orderBy(post.postId.desc())
                         .limit(pageable.getPageSize())

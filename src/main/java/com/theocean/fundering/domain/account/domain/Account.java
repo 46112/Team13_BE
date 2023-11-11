@@ -33,15 +33,15 @@ public class Account {
     @Column(name = "balance")
     private int balance;
 
-    public void updateBalance(int balance) {
-        this.balance = balance;
-    }
-
     @Builder
     public Account(final Long managerId, final Long postId) {
         this.managerId = managerId;
         this.postId = postId;
         balance = 0;
+    }
+
+    public void updateBalance(final int balance) {
+        this.balance = balance;
     }
 
     @Override

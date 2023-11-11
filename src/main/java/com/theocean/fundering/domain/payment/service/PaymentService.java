@@ -47,7 +47,7 @@ public class PaymentService {
             paymentRepository.save(dto.toEntity(member, post));
         }
         else {
-            CancelData cancelData = new CancelData(dto.getImpUid(), true);
+            final CancelData cancelData = new CancelData(dto.getImpUid(), true);
             iamportResponse = paymentConfig.iamportClient().cancelPaymentByImpUid(cancelData);
         }
         return iamportResponse;

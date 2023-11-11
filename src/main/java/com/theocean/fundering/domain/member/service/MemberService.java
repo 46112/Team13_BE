@@ -35,7 +35,7 @@ public class MemberService {
         });
     }
 
-    public MemberResponse.SettingDTO findAllUserSetting(final Long id) {
+    public MemberResponse.SettingDTO findAllMemberSetting(final Long id) {
         final Member member = memberRepository.findById(id).orElseThrow(
                 () -> new Exception400(ErrorCode.ER01)
         );
@@ -43,19 +43,19 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateUserSetting(@Valid final MemberRequest.SettingDTO requestDTO, final Long id, MultipartFile thumbnail) {
+    public void updateMemberSetting(@Valid final MemberRequest.SettingDTO requestDTO, final Long id, MultipartFile thumbnail) {
         final Member member = memberRepository.findById(id).orElseThrow(
                 () -> new Exception400(ErrorCode.ER01)
         );
         final String encodePassword = passwordEncoder.encode(requestDTO.getModifyPassword());
         final String img = uploadImage(thumbnail);
-        member.updateUserSetting(requestDTO.getNickname(), encodePassword, requestDTO.getPhoneNumber(), img);
+        member.updateMemberSetting(requestDTO.getNickname(), encodePassword, requestDTO.getPhoneNumber(), img);
         memberRepository.save(member);
     }
 
     @Transactional
-    public void cancellationUser(final Long userId) {
-        final Member member = memberRepository.findById(userId).orElseThrow(
+    public void cancellationMember(final Long memberId) {
+        final Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new Exception400(ErrorCode.ER01)
         );
         memberRepository.delete(member);

@@ -6,9 +6,9 @@ import org.springframework.data.domain.Slice;
 
 
 public interface MyFundingRepository {
-    Slice<MyFundingResponse.HostDTO> findAllPostingByHost(Long userId, Pageable pageable);
-    Slice<MyFundingResponse.SupporterDTO> findAllPostingBySupporter(Long userId, Pageable pageable);
+    Slice<MyFundingResponse.HostDTO> findAllPostingByHost(Long memberId, Pageable pageable);
+    Slice<MyFundingResponse.SupporterDTO> findAllPostingBySupporter(Long memberId, Pageable pageable);
 
-    Slice<MyFundingResponse.HeartPostingDTO> findAllPostingByHeart(Long userId, Pageable pageable);
+    Slice<MyFundingResponse.HeartPostingDTO> findAllPostingByHeart(Long memberId, Pageable pageable);
 
 }

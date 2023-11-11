@@ -25,6 +25,7 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
+    private static final int ADMIN_COUNT = 3;
 
     public List<AdminResponse.FindAllDTO> getAdmins(final Long postId){
 
@@ -32,8 +33,8 @@ public class AdminService {
         if (post.isEmpty()) throw new Exception404(ErrorCode.ER03);
 
         final List<Long> adminIdList = adminRepository.findByPostId(postId);
-        if (adminIdList.size() > 3) throw new Exception500(ErrorCode.ER05);
-        final List<AdminResponse.FindAllDTO> adminDetails = new ArrayList<>(3);
+        if (adminIdList.size() > ADMIN_COUNT) throw new Exception500(ErrorCode.ER05);
+        final List<AdminResponse.FindAllDTO> adminDetails = new ArrayList<>(ADMIN_COUNT);
 
         for(final Long adminId : adminIdList) {
             final Member member = memberRepository.findById(adminId)
