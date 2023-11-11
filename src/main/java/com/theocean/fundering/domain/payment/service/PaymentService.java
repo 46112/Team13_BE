@@ -5,6 +5,7 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
+import com.theocean.fundering.domain.account.domain.Account;
 import com.theocean.fundering.domain.member.domain.Member;
 import com.theocean.fundering.domain.member.repository.MemberRepository;
 import com.theocean.fundering.domain.payment.dto.PaymentRequest;
@@ -41,6 +42,8 @@ public class PaymentService {
             final Post post = postRepository.findById(postId).orElseThrow(
                     () -> new Exception500(ErrorCode.ER03)
             );
+            final Account account = post.getAccount();
+            account.updateBalance(account.getBalance() + dto.getAmount());
             paymentRepository.save(dto.toEntity(member, post));
         }
         else {
