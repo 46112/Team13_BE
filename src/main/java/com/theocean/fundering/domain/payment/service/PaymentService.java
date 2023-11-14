@@ -24,33 +24,24 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
-    private final PaymentConfig paymentConfig;
     private final PaymentRepository paymentRepository;
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
 
 
     @Transactional
-    public IamportResponse<Payment> verifyByImpUidAndDonate(final String email,
-                                                            final PaymentRequest.DonateDTO dto,
-                                                            final Long postId) throws IamportResponseException, IOException {
-        IamportResponse<Payment> iamportResponse = paymentConfig.iamportClient().paymentByImpUid(dto.getImpUid());
-        if (iamportResponse.getResponse().getAmount().intValue() == dto.getAmount()){
-            final Member member = memberRepository.findByEmail(email).orElseThrow(
-                    () -> new Exception500(ErrorCode.ER01)
-            );
-            final Post post = postRepository.findById(postId).orElseThrow(
-                    () -> new Exception500(ErrorCode.ER03)
-            );
-            final Account account = post.getAccount();
-            account.updateBalance(account.getBalance() + dto.getAmount());
-            paymentRepository.save(dto.toEntity(member, post));
-        }
-        else {
-            final CancelData cancelData = new CancelData(dto.getImpUid(), true);
-            iamportResponse = paymentConfig.iamportClient().cancelPaymentByImpUid(cancelData);
-        }
-        return iamportResponse;
+    public void donate(final String email,
+                       final PaymentRequest.DonateDTO dto,
+                       final Long postId) {
+        final Member member = memberRepository.findByEmail(email).orElseThrow(
+                () -> new Exception500(ErrorCode.ER01)
+        );
+        final Post post = postRepository.findById(postId).orElseThrow(
+                () -> new Exception500(ErrorCode.ER03)
+        );
+        final Account account = post.getAccount();
+        account.updateBalance(account.getBalance() + dto.getAmount());
+        paymentRepository.save(dto.toEntity(member, post));
     }
 
 }

@@ -75,7 +75,7 @@ public class MyFundingRepositoryImpl implements MyFundingRepository{
         final List<MyFundingResponse.HeartPostingDTO> contents =
                 queryFactory.select(Projections.constructor(MyFundingResponse.HeartPostingDTO.class,
                                 post.postId,
-                                post.writer.userId,
+                                post.writer.memberId,
                                 post.writer.nickname,
                                 post.celebrity.celebId,
                                 post.celebrity.celebName,
@@ -111,7 +111,7 @@ public class MyFundingRepositoryImpl implements MyFundingRepository{
     }
 
     private BooleanExpression eqPostWriterId(final Long userId){
-        return post.writer.userId.eq(userId);
+        return post.writer.memberId.eq(userId);
     }
 
     private BooleanExpression eqPostSupporterId(final Long userId){

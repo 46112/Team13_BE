@@ -30,7 +30,7 @@ public class PostQuerydslRepositoryImpl implements PostQuerydslRepository {
         final List<PostResponse.FindAllDTO> contents = jpaQueryFactory
                 .select(Projections.bean(PostResponse.FindAllDTO.class,
                         post.postId.as("postId"),
-                        post.writer.userId.as("writerId"),
+                        post.writer.memberId.as("writerId"),
                         post.writer.nickname.as("writer"),
                         post.celebrity.celebId.as("celebId"),
                         post.celebrity.celebName.as("celebrity"),
@@ -57,7 +57,7 @@ public class PostQuerydslRepositoryImpl implements PostQuerydslRepository {
         final List<PostResponse.FindAllDTO> contents = jpaQueryFactory
                 .select(Projections.bean(PostResponse.FindAllDTO.class,
                         post.postId.as("postId"),
-                        post.writer.userId.as("writerId"),
+                        post.writer.memberId.as("writerId"),
                         post.writer.nickname.as("writer"),
                         post.celebrity.celebId.as("celebId"),
                         post.celebrity.celebName.as("celebrity"),
@@ -85,7 +85,7 @@ public class PostQuerydslRepositoryImpl implements PostQuerydslRepository {
         final List<PostResponse.FindAllDTO> contents = jpaQueryFactory
                 .select(Projections.bean(PostResponse.FindAllDTO.class,
                         post.postId.as("postId"),
-                        post.writer.userId.as("writerId"),
+                        post.writer.memberId.as("writerId"),
                         post.writer.nickname.as("writer"),
                         post.celebrity.celebId.as("celebId"),
                         post.celebrity.celebName.as("celebrity"),

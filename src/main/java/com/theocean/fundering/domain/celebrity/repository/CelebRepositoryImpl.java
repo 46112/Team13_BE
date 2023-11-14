@@ -26,7 +26,7 @@ public class CelebRepositoryImpl implements CelebRepositoryCustom {
         final List<CelebResponse.FundingDTO> contents = queryFactory
                 .select(Projections.constructor(CelebResponse.FundingDTO.class,
                         post.postId,
-                        post.writer.userId,
+                        post.writer.memberId,
                         post.writer.nickname,
                         post.celebrity.celebId,
                         post.celebrity.celebName,

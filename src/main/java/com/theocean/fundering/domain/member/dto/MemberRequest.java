@@ -65,7 +65,7 @@ public class MemberRequest {
                     .email(email)
                     .nickname(nickname)
                     .password(password)
-                    .userRole(MemberRole.USER)
+                    .memberRole(MemberRole.USER)
                     .build();
         }
         public void encodePassword(final String encodePassword){

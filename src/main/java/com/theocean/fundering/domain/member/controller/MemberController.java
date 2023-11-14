@@ -64,7 +64,7 @@ public class MemberController {
 
     @Operation(summary = "회원정보 수정", description = "토큰을 기반으로 사용자의 회원정보를 수정한다.")
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PutMapping(value = "/user/setting", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/user/setting", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ApiResult<?> updateUserSetting(
             @Valid @Schema(implementation = MemberRequest.SettingDTO.class)
